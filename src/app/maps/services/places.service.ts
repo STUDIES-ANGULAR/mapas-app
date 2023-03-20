@@ -34,7 +34,7 @@ export class PlacesService {
           resolve(this.useLocation);
         },
         ( err ) => {
-          alert('No se puede obtener la geolocalizacion')
+          alert('No se puede obtener la geolocalizacion');
           console.log(err);
           reject();
         }
@@ -45,6 +45,12 @@ export class PlacesService {
 
   getPlacesByQuery ( query: string = '' ) {
     //TODO: Evaluar cuando query es vacio
+    if ( query.length === 0 ){
+      this.places= [];
+      this.isLoadingPlaces = false;      
+      return;
+    }
+    
     if( !this.useLocation ){ 
       throw Error('No hay userLocation');
     }
