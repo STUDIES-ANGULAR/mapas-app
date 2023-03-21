@@ -14,7 +14,7 @@ export class SearchResultComponent{
 
   constructor( 
     private placesService: PlacesService,
-    private MapService: MapService ) { }
+    private mapService: MapService ) { }
 
   get isLoadingPlaces(): boolean{
     return this.placesService.isLoadingPlaces;
@@ -27,7 +27,16 @@ export class SearchResultComponent{
   flyTo( place : Feature ){
     this.selectedId = place.id;
     const [ lng, lat ] = place.center;
-    this.MapService.flyTo([ lng, lat ]);
+    this.mapService.flyTo([ lng, lat ]);
 
+  }
+
+  getDirections( place: Feature ){
+    if( !this.placesService.useLocation ) throw Error(' No hay userLocation');
+
+    const start = this.placesService.useLocation;
+    const end = place.center as [number, number];
+    
+    this.mapService.getRouteBetweenToPoints(start, end);
   }
 }
